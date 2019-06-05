@@ -1,0 +1,67 @@
+﻿@model IEnumerable<TaskManagerApp.Models.Task>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Your Tasks</h2>
+<p>@ViewBag.Result</p>
+<form action="../Tasks/Index" method="post" style="width:100%; border: 1px solid blue;">
+    <div class="container">
+        <div class="col-xs-10 col-md-3">
+            Search <input type="text" name="txtSearch" placeholder="SEARCH" />
+        </div>
+        <div class="col-xs-10 col-md-3">
+            Before  <input type="date" name="date" />
+        </div>
+        <div class="col-xs-10 col-md-3">
+            Status  @Html.DropDownList("status", (IEnumerable<SelectListItem>)@ViewBag.StatusFilter)
+            <input type="submit" name="submit" value="Search" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dueDate)
+        </th>
+        <th>
+            @Html.DisplayName("Owner's Name")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @(item.status ? "Yes" : "No")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dueDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Member.firstName)
+            @Html.DisplayFor(modelItem => item.Member.lastName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
